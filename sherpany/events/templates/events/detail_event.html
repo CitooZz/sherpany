@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="input-group mb-3">
+    <label for="">Title:</label>
+    <p>{{object.title}}</p>
+  </div>
+  <div class="input-group mb-3">
+    <label for="">Description:</label>
+    <p>{{object.description|linebreaks}}</p>
+  </div>
+  <div class="input-group mb-3">
+    <label for="">Start at:</label>
+    <p>{{object.start_at|date}}</p>
+  </div>
+  {% if object.creator != request.user %}
+    {% if not is_participant %}
+      <a href="{% url 'events:reserve_event' event.id %}" confirm_message="Are you sure want to reservation to this event?" class="post_link">Reserve</a>
+    {% else %}
+      <a href="{% url 'events:withdraw_event_reservation' event.id %}" confirm_message="Are you sure want to withdraw reservation to this event?" class="post_link">Withdraw Reservation</a>
+    {% endif %}
+  {% else %}
+    <a href="{% url 'events:update_event' event.id %}">Edit</a>
+  {% endif %}
+{% endblock content %}

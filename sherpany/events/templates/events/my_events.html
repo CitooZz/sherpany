@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load bootstrap_pagination %}
+
+{% block content %}
+  <hr>
+  {% if object_list %}
+  <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th>Creator</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Start at</th>
+      <th scope="col">Total Participants</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for event in object_list %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{event.owner}}</t>
+      <td>{{ event.title }}</td>
+      <td>{{ event.description }}</td>
+      <td>{{ event.start_at }}</td>
+      <td>{{ event.participants.count }}</td>
+      <td>
+        <a href="{% url 'events:update_event' event.id %}">Edit</a>
+        <a href="{% url 'events:delete_event' event.id %}" confirm_message="Are you sure want to delete this event?" class="post_link">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+  {% bootstrap_paginate page_obj %}
+  {% else %}
+    No events yet
+  {% endif %}
+{% endblock content %}
